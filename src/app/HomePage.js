@@ -97,7 +97,7 @@ function HomePage({ signOut, user }) {
 
   //Get the page is unable or not
   React.useEffect(() => {
-    checkAgentStatus();
+    // checkAgentStatus();
 
     client.graphql({ query: listApps }).then((result) => {
       let enable = result.data.listApps.items[0].status ? "enable" : "disable";

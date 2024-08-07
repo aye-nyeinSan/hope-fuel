@@ -1,39 +1,51 @@
-
-
-// CheckPayment.js
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import PaymentInfoCard from "../../components/PaymentInfoCard";
 
-// Sample data to populate the table
-const paymentData = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "abc@gmail.com",
-    supportRegion: "Yangon",
-    amount: "$100",
-    month: "2",
-    note: "OK",
-    screenshot: "https://your-bucket-name.s3.amazonaws.com/path/to/image.png",
-  },
-  {
-    id: 2,
-    name: "bb",
-    email: "bb@gmail.com",
-    supportRegion: "Yangon",
-    amount: "$200",
-    month: "2",
-    note: "This payment is for the month of February",
-    screenshot: [
-      "https://your-bucket-name.s3.amazonaws.com/path/to/image1.png",
-      "https://your-bucket-name.s3.amazonaws.com/path/to/image2.png",
-    ],
-  },
-  // Add more data as needed
-];
+function CheckPayment({ onAccept, onReject ,checkStatus}) {
+  const [paymentData, setPaymentData] = useState([]);
 
-function CheckPayment({ onAccept, onReject }) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/checkPaymentStatus?paymentCheckStatus=${checkStatus}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        const transformedData = data.map((transaction) => ({
+          id: 1, // Use the correct ID field
+          name: transaction.Name,
+          email: transaction.Email,
+          supportRegion: transaction.Region,
+          amount: transaction.Amount,
+          month: transaction.Month,
+          note: transaction.Note,
+          screenshot: transaction.Screenshot
+            ? transaction.Screenshot.split(",")
+            : [],
+        }));
+
+        setPaymentData(transformedData);
+      } catch (error) {
+        console.error("Error fetching payment check status", error);
+      }
+    };
+
+    fetchData();
+  }, [checkStatus]);
+
   return (
     <TableContainer component={Paper} sx={{ width: "100%", overflowX: "auto" }}>
       <Table sx={{ minWidth: 650 }} aria-label="Payment Info Table">
@@ -42,11 +54,12 @@ function CheckPayment({ onAccept, onReject }) {
             <TableCell>No.</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>SupportRegion</TableCell>
+            <TableCell>Support Region</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell>Month</TableCell>
             <TableCell>Note</TableCell>
             <TableCell>Screenshot</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

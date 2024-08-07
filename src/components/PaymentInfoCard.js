@@ -25,7 +25,7 @@ function PaymentInfoCard({ payment, onAccept, onReject }) {
           variant="outlined"
           color="primary"
           onClick={onAccept}
-          sx={{ mr: 1, mb:1 }}
+          sx={{ mr: 1, mb: 1 }}
         >
           Accept
         </Button>
@@ -34,6 +34,7 @@ function PaymentInfoCard({ payment, onAccept, onReject }) {
           variant="outlined"
           color="error"
           onClick={onReject}
+          sx={{ mr: 1, mb: 1 }}
         >
           Reject
         </Button>
