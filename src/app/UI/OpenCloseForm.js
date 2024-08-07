@@ -5,6 +5,8 @@ import { listApps } from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 const client = generateClient();
 
+import CheckPayment from './CheckPayment';
+
 const OpenCloseForm = ({status}) => {
   async function handleOnClick(event)
   {
@@ -29,10 +31,21 @@ const OpenCloseForm = ({status}) => {
         console.log(result)
   }
   return (
-    <FormGroup>
-  <FormControlLabel control={<Switch defaultChecked={status === 'enable' ? true : false} onClick={handleOnClick} />} label="Form Open/Close" />
-</FormGroup>
-  )
+    <>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={status === "enable" ? true : false}
+              onClick={handleOnClick}
+            />
+          }
+          label="Form Open/Close"
+        />
+       < CheckPayment />
+      </FormGroup>
+    </>
+  );
 }
 
 export default OpenCloseForm

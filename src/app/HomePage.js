@@ -54,6 +54,11 @@ import * as subscriptions from "../graphql/subscriptions";
 import getAuthCurrentUser from "./utilites/getAuthCurrentUser";
 
 import OpenCloseForm from "./UI/OpenCloseForm.js";
+
+
+
+
+
 Amplify.configure(config);
 
 const client = generateClient();
@@ -142,7 +147,7 @@ function HomePage({ signOut, user }) {
         />
         <CssBaseline />
 
-        <Container component="section" maxWidth="xs">
+        <Container component="section" maxWidth={page === 3 ? "xl" : "xs"}>
           {"enable" === "loading" && <CircularProgress />}
           {(userRole == "admin" || "enable" === "enable") && page == 1 && (
             <CreateOrExtend userRole={userRole} />
