@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import PaymentInfoCard from "../../components/PaymentInfoCard";
 
-function CheckPayment({ onAccept, onReject ,checkStatus}) {
+function CheckPayment({checkStatus}) {
   const [paymentData, setPaymentData] = useState([]);
 
   useEffect(() => {
