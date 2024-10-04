@@ -72,6 +72,7 @@ CREATE TABLE Transactions (
     TransactionDate TIMESTAMP,
     PaymentDenied BOOLEAN,
     Month INT,
+    HopeFuelID INT,
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerId),
     FOREIGN KEY (SupportRegionID) REFERENCES SupportRegion(SupportRegionId),
     FOREIGN KEY (WalletID) REFERENCES Wallet(WalletId),
