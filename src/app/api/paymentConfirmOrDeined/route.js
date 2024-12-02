@@ -7,13 +7,12 @@ export async function POST(req) {
     const json = await req.json();
     console.log("RequestBody from Confirm payment:", json);
 
-    const denied = json.denied;
+    const { denied } = json;
     const transactionId = json.HopeFuelID;
-    const note = json.note ; 
-    const formStatus = json.formStatus; 
+    const { note } = json;
+    const { formStatus } = json;
     const agentId = json.AgentId;
 
-    
     // SQL queries
     const updateTransactionQuery = `
       UPDATE Transactions 
@@ -42,13 +41,13 @@ export async function POST(req) {
 
     // Values for each query
     const transactionValues = [denied, new Date(), transactionId];
-    const noteValues = [note, new Date(), agentId , transactionId]; 
+    const noteValues = [note, new Date(), agentId, transactionId];
     const formStatusValues = [formStatus, transactionId];
 
     // Execute queries sequentially
     const transactionResult = await db(
       updateTransactionQuery,
-      transactionValues
+      transactionValues,
     );
     const noteResult = await db(updateNoteQuery, noteValues);
     const formStatusResult = await db(updateFormStatusQuery, formStatusValues);
@@ -64,7 +63,7 @@ export async function POST(req) {
     console.error("[Error] Failed to update payment status:", error);
     return NextResponse.json(
       { error: "Failed to update payment status" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

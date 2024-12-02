@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
+    "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
+    "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.0.5",
@@ -20,8 +26,6 @@
     "aws-amplify": "^6.0.5",
     "date-fns": "^2.30.0",
     "dotenv": "^16.4.5",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
     "formidable": "^3.5.1",
     "mime": "^3.0.0",
     "moment-timezone": "^0.5.46",
@@ -34,6 +38,27 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "20.10.0"
+    "@types/node": "20.10.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "^15.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.1"
+  },
+  "lint-staged": {
+    "./*/**/*.{js,jsx,ts,tsx}": [
+      "npm run prettier:fix",
+      "npm run eslint:fix"
+    ],
+    "*.{json,md}": [
+      "npm run prettier:fix"
+    ]
   }
 }

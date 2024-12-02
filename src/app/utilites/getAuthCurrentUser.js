@@ -19,7 +19,7 @@ export default async function getAuthCurrentUser() {
 
     // const session = await Auth.currentSession();
     // const accessToken = session.tokens.accessToken;
-    const email = session.tokens.idToken.payload.email;
+    const { email } = session.tokens.idToken.payload;
     // const userRole = accessTokenPayload["cognito:groups"];
 
     return { userId, email };

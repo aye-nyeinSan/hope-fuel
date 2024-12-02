@@ -12,10 +12,13 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-const SupportRegion = () => (
-  <Stack direction="row" alignItems="center" spacing={2}>
-    <Typography>Support Region:</Typography>
-    <Chip label="Region 1" color="error" />
-  </Stack>
-);
+
+function SupportRegion() {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      <Typography>Support Region:</Typography>
+      <Chip label="Region 1" color="error" />
+    </Stack>
+  );
+}
 export default SupportRegion;

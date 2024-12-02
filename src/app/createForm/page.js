@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Avatar, Typography, Box } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import CheckUser from "./checkUser";
 import CreateForm from "./createForm";
 import ExtendForm from "./extendForm";
 import ExtendOrNot from "./extendOrNot";
 import { UserProvider } from "../context/UserContext";
 import { AgentProvider } from "../context/AgentContext";
-import { Avatar, Typography, Box } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import getAuthCurrentUser from "../utilites/getAuthCurrentUser";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 
 function CreateOrExtendPage() {
   const [userInfo, setUserInfo] = useState(null);

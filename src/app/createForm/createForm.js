@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Autocomplete,
   Box,
@@ -21,8 +22,8 @@ import filehandler from "../utilites/createForm/fileHandler";
 import { useUser } from "../context/UserContext";
 import { useAgent } from "../context/AgentContext";
 
-const CreateForm = ({ userInfo, setloading }) => {
-  //console.log("UserInfo from createForm: ", userInfo);
+function CreateForm({ userInfo, setloading }) {
+  // console.log("UserInfo from createForm: ", userInfo);
   const user = useUser();
   const agent = useAgent();
   console.log("User from CreateForm: ", user);
@@ -69,7 +70,7 @@ const CreateForm = ({ userInfo, setloading }) => {
       .then((response) => response.json())
       .then((data) => setSupportRegions(data))
       .catch((error) =>
-        console.error("Error fetching support regions:", error)
+        console.error("Error fetching support regions:", error),
       );
   }, []);
 
@@ -95,7 +96,6 @@ const CreateForm = ({ userInfo, setloading }) => {
       setFileExist(false);
       return;
     }
-   
 
     createFormSubmit(
       event,
@@ -114,7 +114,7 @@ const CreateForm = ({ userInfo, setloading }) => {
       contactLink,
       notes,
       manyChatId,
-      walletId
+      walletId,
     );
 
     setFiles([]);
@@ -169,7 +169,7 @@ const CreateForm = ({ userInfo, setloading }) => {
           />
         ))}
       </RadioGroup>
-{/* wallet selection*/}
+      {/* wallet selection */}
       <FormLabel id="wallets">Wallets</FormLabel>
       {wallets && wallets.length > 0 ? (
         <RadioGroup aria-labelledby="wallets-group-label" name="wallets">
@@ -179,7 +179,7 @@ const CreateForm = ({ userInfo, setloading }) => {
               control={<Radio />}
               label={wallet.WalletName}
               key={wallet.WalletID}
-              required={true}
+              required
               sx={{ mx: 1 }}
             />
           ))}
@@ -269,6 +269,6 @@ const CreateForm = ({ userInfo, setloading }) => {
       </Button>
     </Box>
   );
-};
+}
 
 export default CreateForm;

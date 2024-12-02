@@ -1,6 +1,6 @@
 import { Box, Typography, Card, Chip, Stack } from "@mui/material";
 
-const AmountDetails = ({ amount }) => {
+function AmountDetails({ amount }) {
   if (!amount) return <p>No data available in AmountDetails</p>;
 
   return (
@@ -68,6 +68,6 @@ const AmountDetails = ({ amount }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default AmountDetails;

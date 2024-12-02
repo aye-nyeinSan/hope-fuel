@@ -1,5 +1,7 @@
-export const dynamic = "force-dynamic"; // defaults to force-static
+// defaults to force-static
 import db from "../../utilites/db";
+
+export const dynamic = "force-dynamic";
 
 // Function to insert a note
 async function insertNote(note, agentID) {
@@ -14,7 +16,6 @@ async function insertNote(note, agentID) {
     throw new Error("Failed to insert note");
   }
 }
-
 
 // POST request handler
 export async function POST(req) {

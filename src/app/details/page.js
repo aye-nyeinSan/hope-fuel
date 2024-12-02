@@ -37,7 +37,7 @@ export default function PaymentDetails() {
 
       try {
         const response = await fetch(
-          `/api/paymentDetails?HopeFuelID=${HopeFuelID}`
+          `/api/paymentDetails?HopeFuelID=${HopeFuelID}`,
         );
         const result = await response.json();
 

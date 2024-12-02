@@ -98,23 +98,23 @@ export async function GET(req) {
     if (status) {
       const paymentData = await PaymentCheckQuery(status);
       return NextResponse.json({ paymentData });
-    } else if (customerName && customerEmail) {
+    }
+    if (customerName && customerEmail) {
       const cardIssuedData = await getAnotherTransaction(
         customerEmail,
-        customerName
+        customerName,
       );
       return NextResponse.json({ cardIssuedData });
-    } else {
-      return NextResponse.json(
-        { error: "Invalid query parameters" },
-        { status: 400 }
-      );
     }
+    return NextResponse.json(
+      { error: "Invalid query parameters" },
+      { status: 400 },
+    );
   } catch (error) {
     console.error("[Error] Fetching data failed:", error);
     return NextResponse.json(
       { error: "Failed to fetch data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

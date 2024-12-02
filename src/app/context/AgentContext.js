@@ -1,4 +1,5 @@
 "use client";
+
 import React, {
   createContext,
   useContext,
@@ -15,7 +16,7 @@ const AgentContext = createContext();
 export const useAgent = () => useContext(AgentContext);
 
 // Provider component
-export const AgentProvider = ({ children }) => {
+export function AgentProvider({ children }) {
   const [agentId, setAgentId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const hasCheckedAgent = useRef(false); // Prevents multiple executions
@@ -37,7 +38,7 @@ export const AgentProvider = ({ children }) => {
 
       // Check if the agent exists
       const checkResponse = await fetch(
-        `/api/checkAgent?awsId=${currentUser.userId}`
+        `/api/checkAgent?awsId=${currentUser.userId}`,
       );
       const checkData = await checkResponse.json();
       console.log("Check Agent Response:", checkData);
@@ -64,7 +65,7 @@ export const AgentProvider = ({ children }) => {
         } else {
           console.error(
             "Failed to create agent:",
-            createData.error || "Unknown error"
+            createData.error || "Unknown error",
           );
         }
       }
@@ -85,4 +86,4 @@ export const AgentProvider = ({ children }) => {
       {isLoading ? <p>Loading...</p> : children}
     </AgentContext.Provider>
   );
-};
+}

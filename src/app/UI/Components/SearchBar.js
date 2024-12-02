@@ -6,10 +6,9 @@ function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setSearchTerm(value);
-     onSearch(value);
-    
+    onSearch(value);
   };
 
   return (

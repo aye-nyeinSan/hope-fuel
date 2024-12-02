@@ -1,10 +1,9 @@
-
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main:"#dc2626",
+      main: "#dc2626",
       red50: "#fef2f2",
       red100: "#fee2e2",
       red200: "#fecaca",
@@ -17,7 +16,7 @@ const theme = createTheme({
       red900: "#7f1d1d",
     },
     secondary: {
-        main:"#2563EB",
+      main: "#2563EB",
       yellow50: "#fffbeb",
       yellow100: "#fef3c7",
       yellow200: "#fde68a",
@@ -30,10 +29,10 @@ const theme = createTheme({
       yellow900: "#78350f",
     },
     neutral: {
-        main:"#64748b",
+      main: "#64748b",
       grey50: "#f8fafc",
       grey100: "#f1f5f9",
-      grey200:"#e2e8f0",
+      grey200: "#e2e8f0",
       grey300: "#cbd5e1",
       grey400: "#94a3b8",
       grey500: "#64748b",
@@ -42,11 +41,11 @@ const theme = createTheme({
       grey800: "#1e293b",
       grey900: "#0f172a",
     },
-    shades:{
-        main:"#ffffff",
-        white: "#ffffff",
-        black: "#000000"
-    }
+    shades: {
+      main: "#ffffff",
+      white: "#ffffff",
+      black: "#000000",
+    },
   },
   // You can define other theme customizations here
 });

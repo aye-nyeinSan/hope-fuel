@@ -21,7 +21,7 @@ async function checkExistedAgent(awsId) {
   }
 }
 
-//Get the agentInfo
+// Get the agentInfo
 export async function GET(req) {
   try {
     const url = new URL(req.url);
@@ -30,17 +30,17 @@ export async function GET(req) {
     if (!awsId) {
       return NextResponse.json(
         { error: "Missing awsId query parameter" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const data = await checkExistedAgent(awsId);
-    //console.log("Data:", data); // Log the entire data array
+    // console.log("Data:", data); // Log the entire data array
 
     if (data.length === 0 || data[0].AgentExists === 0) {
       return NextResponse.json(
         { message: "User does not exist", code: 0 },
-        { status: 404 }
+        { status: 404 },
       );
     }
     return NextResponse.json({ message: "User exists", code: 1 });
@@ -48,7 +48,7 @@ export async function GET(req) {
     console.error("[Error] Cannot load existing agentUser", error);
     return NextResponse.json(
       { error: "Cannot load existing agentUser" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -66,25 +66,25 @@ async function createAgent(awsId, userRole) {
   try {
     const result = await db(query, values);
     console.log("Agent created:", result);
-    return result.insertId; //return AgentId
+    return result.insertId; // return AgentId
   } catch (error) {
     console.error("[DB] Error creating agent in DB:", error);
     throw error;
   }
 }
 
-//Crete a New Agent
+// Crete a New Agent
 export async function POST(req) {
   try {
     const { awsId } = await req.json();
-    const data = await createAgent(awsId, 1); //userrole 1 is support agent
+    const data = await createAgent(awsId, 1); // userrole 1 is support agent
 
     return NextResponse.json({ id: data });
   } catch (error) {
     console.error("[Error] Cannot create agentUser", error);
     return NextResponse.json(
       { error: "Cannot create agentUser" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

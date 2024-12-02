@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import awsConfig from "./aws-exports";
 import { Amplify } from "aws-amplify";
+import awsConfig from "./aws-exports";
 import { UserProvider, useUser } from "./context/UserContext";
 
 // Initialize Amplify
@@ -20,7 +20,6 @@ export async function middleware(req) {
   }
 
   try {
- 
     // // Check if the user is authenticated
     // const { currentUser } = useUser();
     // console.log("User from middleware: ", currentUser);
@@ -32,7 +31,6 @@ export async function middleware(req) {
 
     console.log("Authenticated user:", user);
 
-    
     // User is authenticated; allow access
     return NextResponse.next();
   } catch (error) {

@@ -14,6 +14,8 @@ import {
   InputLabel,
   Divider,
 } from "@mui/material";
+import { set } from "date-fns";
+import { Agent } from "http";
 import ActionButtons from "../UI/Components/ActionButton";
 import AmountDetails from "../UI/Components/AmountDetails";
 import CardsIssuedList from "../UI/Components/CardIssuedList";
@@ -22,8 +24,6 @@ import SupportRegion from "../UI/Components/SupportRegion";
 import UserInfo from "../UI/Components/UserInfo";
 import HopeFuelIdStatus from "../UI/Components/HopeIdStatus";
 import SearchBarForm from "../search/page";
-import { set } from "date-fns";
-import { Agent } from "http";
 
 export default function PaymentDetails() {
   const searchParams = useSearchParams();
@@ -39,7 +39,7 @@ export default function PaymentDetails() {
 
       try {
         const response = await fetch(
-          `/api/paymentDetails?HopeFuelID=${HopeFuelID}`
+          `/api/paymentDetails?HopeFuelID=${HopeFuelID}`,
         );
         const result = await response.json();
 

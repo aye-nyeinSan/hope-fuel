@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const ExtendOrNot = ({ userInfo, onConfirm, onDecline }) => {
+function ExtendOrNot({ userInfo, onConfirm, onDecline }) {
   console.log("userInfo from ExtendOrNot: ", userInfo);
   return (
     <Box sx={{ mt: 4 }}>
@@ -79,6 +79,6 @@ const ExtendOrNot = ({ userInfo, onConfirm, onDecline }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default ExtendOrNot;

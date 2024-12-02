@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import { UserProvider , useUser } from "../context/UserContext";
-import { AgentProvider } from "../context/AgentContext";
-import ExtendUserForm from "./ExtendUserForm";
 import { Box, Typography, Avatar } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { UserProvider, useUser } from "../context/UserContext";
+import { AgentProvider } from "../context/AgentContext";
+import ExtendUserForm from "./ExtendUserForm";
 
-const ExtendUserPage = () => {
+function ExtendUserPage() {
   const user = useUser();
-   const userRole = user?.userRole ;
-   console.log("User",user);
+  const userRole = user?.userRole;
+  console.log("User", user);
 
   return (
     <UserProvider>
@@ -36,6 +36,6 @@ const ExtendUserPage = () => {
       </AgentProvider>
     </UserProvider>
   );
-};
+}
 
 export default ExtendUserPage;

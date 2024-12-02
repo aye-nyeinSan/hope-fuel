@@ -170,13 +170,13 @@
 // }
 
 import { NextResponse } from "next/server";
+import exp from "constants";
+import moment from "moment-timezone";
 import db from "../../utilites/db";
 import recentExpireDate from "../../utilites/recentExpireDate.js";
 import calculateExpireDate from "../../utilites/calculateExpireDate";
 
 import maxHopeFuelID from "../../utilites/maxHopeFuelID.js";
-import exp from "constants";
-import moment from "moment-timezone";
 
 async function InsertCustomer(
   customerName,
@@ -186,9 +186,9 @@ async function InsertCustomer(
   contactLink,
   expireDate,
   cardId,
-  month
+  month,
 ) {
-  let raw = {
+  const raw = {
     customerName,
     customerEmail,
     agentId,
@@ -200,10 +200,10 @@ async function InsertCustomer(
   };
 
   let nextExpireDate = null;
-  let lastDayOfthisMonth = calculateExpireDate(new Date(), 0, 0);
+  const lastDayOfthisMonth = calculateExpireDate(new Date(), 0, 0);
   console.log(lastDayOfthisMonth);
   console.log(expireDate);
-  let isEedCurrent =
+  const isEedCurrent =
     expireDate.getFullYear() >= lastDayOfthisMonth.getFullYear() &&
     expireDate.getMonth() >= lastDayOfthisMonth.getMonth();
   console.log(expireDate.getDate());
@@ -215,14 +215,14 @@ async function InsertCustomer(
     nextExpireDate = calculateExpireDate(
       expireDate,
       parseInt(month),
-      !isEedCurrent
+      !isEedCurrent,
     );
     console.log(nextExpireDate);
   } else {
     nextExpireDate = calculateExpireDate(
       new Date(),
       parseInt(month),
-      !isEedCurrent
+      !isEedCurrent,
     );
     console.log("The calcualte expire date is .");
     console.log(expireDate);
@@ -249,7 +249,7 @@ async function InsertCustomer(
     console.error("Error inserting customer:", error);
     return NextResponse.json(
       { error: "Failed to insert customer" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -264,15 +264,15 @@ async function createNote(note, agentID) {
     console.error("Error inserting customer:", error);
     return NextResponse.json(
       { error: "Failed to insert customer" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 async function createScreenShot(screenShot, transactionsID) {
-  console.log(transactionsID + "  " + screenShot);
+  console.log(`${transactionsID}  ${screenShot}`);
 
-  let screenShotLink = await screenShot.map(async (item) => {
+  const screenShotLink = await screenShot.map(async (item) => {
     const query = `insert into ScreenShot (TransactionID , ScreenShotLink) values ( ?, ?)`;
 
     const path = String(item.url).substring(0, String(item.url).indexOf("?"));
@@ -280,12 +280,11 @@ async function createScreenShot(screenShot, transactionsID) {
 
     try {
       const result = await db(query, values);
-      console.log("result " + result);
+      console.log(`result ${result}`);
       // console.log("Result: ", result);
       return result.insertId;
     } catch (error) {
       console.error("Error inserting ScreenShot:", error);
-      return;
     }
   });
   return screenShotLink;
@@ -293,7 +292,7 @@ async function createScreenShot(screenShot, transactionsID) {
 }
 export async function POST(req) {
   try {
-    let json = await req.json();
+    const json = await req.json();
 
     let {
       customerName,
@@ -320,7 +319,7 @@ export async function POST(req) {
     if (!screenShot) {
       return NextResponse.json(
         { error: "You need to provide a screenshot" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const customerId = await InsertCustomer(
@@ -331,7 +330,7 @@ export async function POST(req) {
       contactLink,
       expireDate,
       cardId,
-      month
+      month,
     );
     console.log("customerId: ", customerId);
 
@@ -346,8 +345,8 @@ export async function POST(req) {
     }
     nextHopeFuelID++;
     console.log("Incremented maxHopeFuelID:", nextHopeFuelID);
-    let timeZone = "Asia/Bangkok";
-    let transactionDateWithThailandTimeZone = moment()
+    const timeZone = "Asia/Bangkok";
+    const transactionDateWithThailandTimeZone = moment()
       .tz(timeZone)
       .format("YYYY-MM-DD HH:mm:ss");
     const query = `
@@ -370,17 +369,17 @@ export async function POST(req) {
     const result = await db(query, values);
 
     const transactionId = result.insertId;
-    console.log("Transaction ID " + transactionId);
+    console.log(`Transaction ID ${transactionId}`);
 
     const screenShotIds = await createScreenShot(screenShot, transactionId);
-    console.log("Screenshot ids are: " + screenShotIds);
+    console.log(`Screenshot ids are: ${screenShotIds}`);
     console.log("Result: ", result);
 
     await db(
       `INSERT INTO TransactionAgent (
           TransactionID, AgentID, LogDate
       ) VALUES (?, ?, ?)`,
-      [transactionId, agentId, new Date()]
+      [transactionId, agentId, new Date()],
     );
     return Response.json({ status: "success" });
   } catch (error) {

@@ -17,16 +17,16 @@ import {
   ImageListItem,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { MuiOtpInput } from "mui-one-time-password-input";
+import Dropzone from "react-dropzone";
 import { useUser } from "../context/UserContext";
 import { useAgent } from "../context/AgentContext";
-import { MuiOtpInput } from "mui-one-time-password-input";
 import checkPrfSubmit from "../utilites/ExtendUser/checkPrfSubmit";
 import extendUserSubmit from "../utilites/ExtendUser/extendUserSubmit";
 import ExtendOrNot from "../createForm/extendOrNot";
-import Dropzone from "react-dropzone";
 import filehandler from "../utilites/createForm/fileHandler";
 
-const ExtendUserForm = ({ userRole }) => {
+function ExtendUserForm({ userRole }) {
   const user = useUser();
   const agent = useAgent();
 
@@ -94,7 +94,7 @@ const ExtendUserForm = ({ userRole }) => {
       setIsChecking,
       setUserInfo,
       setHasPermissionThisMonth,
-      userRole
+      userRole,
     );
     console.log;
     setIsChecking(false);
@@ -131,7 +131,7 @@ const ExtendUserForm = ({ userRole }) => {
       files,
       manyChat,
       contactLink,
-      notes
+      notes,
     );
   };
 
@@ -208,7 +208,7 @@ const ExtendUserForm = ({ userRole }) => {
                   control={<Radio />}
                   label={wallet.WalletName}
                   key={wallet.WalletID}
-                  required={true}
+                  required
                   sx={{ mx: 1 }}
                 />
               ))}
@@ -288,7 +288,7 @@ const ExtendUserForm = ({ userRole }) => {
             >
               {files.map((item) => (
                 <ImageListItem key={item.href}>
-                  <img src={`${item.href}`} alt={"hello"} loading="lazy" />
+                  <img src={`${item.href}`} alt="hello" loading="lazy" />
                 </ImageListItem>
               ))}
             </ImageList>
@@ -300,6 +300,6 @@ const ExtendUserForm = ({ userRole }) => {
       )}
     </Box>
   );
-};
+}
 
 export default ExtendUserForm;

@@ -25,22 +25,25 @@ export default function CheckUser({ onUserCheck, userRole }) {
     const user = await checkUserSubmit(name, email, userRole);
 
     // check if the user has permission
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      name: name,
-      email: email,
+    const raw = JSON.stringify({
+      name,
+      email,
     });
 
-    var requestOptions = {
+    const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
     };
-    let response = await fetch("/api/checkolduserpermission/", requestOptions);
-    let bool = await response.json();
+    const response = await fetch(
+      "/api/checkolduserpermission/",
+      requestOptions,
+    );
+    const bool = await response.json();
     console.log(bool);
     console.log("has permission answer");
 
@@ -48,7 +51,8 @@ export default function CheckUser({ onUserCheck, userRole }) {
       sethasPermissionThisMonth(bool);
       setLoading(bool);
       return;
-    } else if (bool && user) {
+    }
+    if (bool && user) {
       onUserCheck(user, true); // User exists, show ExtendForm
     } else if (!user) {
       // if user don't exist

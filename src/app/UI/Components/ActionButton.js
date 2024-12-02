@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Button, Typography } from "@mui/material";
 
-const ActionButtons = ({ data }) => {
+function ActionButtons({ data }) {
   const [loading, setLoading] = React.useState(false);
   const [confirmDenyFlag, setConfirmDenyFlag] = React.useState(null);
 
@@ -32,7 +32,7 @@ const ActionButtons = ({ data }) => {
         const result = await response.json();
         console.log(
           `Payment ${denied ? "Denied" : "Confirmed"} successfully`,
-          result
+          result,
         );
         setConfirmDenyFlag(denied ? "denied" : "confirmed");
       } else {
@@ -85,6 +85,6 @@ const ActionButtons = ({ data }) => {
       )}
     </Stack>
   );
-};
+}
 
 export default ActionButtons;

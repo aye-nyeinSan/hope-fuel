@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useContext } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -18,7 +19,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import getScreenShotUrl from "../utilites/getScreenShotUrl";
 
-const PaymentTeam = () => {
+function PaymentTeam() {
   // State for holding the row that's being confirmed/denied
   const [selectedRow, setSelectedRow] = React.useState(null); // Holds the row data for the active dialog
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -35,7 +36,7 @@ const PaymentTeam = () => {
     screenshot,
     manychatid,
     status,
-    email
+    email,
   ) {
     return {
       HopeFuelID,
@@ -54,25 +55,25 @@ const PaymentTeam = () => {
 
   const [data, setData] = React.useState([]);
 
-  const rows = data.map((row) => {
-    return createData(
-      row["HopeFuelID"],
-      row["CurrencyCode"],
-      row["Amount"],
-      row["WalletName"],
-      row["Name"],
-      row["AWSID"],
-      row["Month"],
-      row["ScreenShots"],
-      row["ManyChatID"],
+  const rows = data.map((row) =>
+    createData(
+      row.HopeFuelID,
+      row.CurrencyCode,
+      row.Amount,
+      row.WalletName,
+      row.Name,
+      row.AWSID,
+      row.Month,
+      row.ScreenShots,
+      row.ManyChatID,
       "Pending",
-      row["Email"],
-      "Confirm"
-    );
-  });
+      row.Email,
+      "Confirm",
+    ),
+  );
 
   const handleScreenShotClick = async (url) => {
-    let tmpURLObj = url;
+    const tmpURLObj = url;
     if (tmpURLObj) {
       window.open(tmpURLObj, "_blank");
     }
@@ -118,7 +119,7 @@ const PaymentTeam = () => {
       if (response.ok) {
         console.log("Payment Confirmed");
         setData((prevData) =>
-          prevData.filter((item) => item.HopeFuelID !== row.HopeFuelID)
+          prevData.filter((item) => item.HopeFuelID !== row.HopeFuelID),
         );
       }
     });
@@ -148,7 +149,7 @@ const PaymentTeam = () => {
         console.log("Payment Denied");
         setData(
           (prevData) =>
-            prevData.filter((item) => item.HopeFuelID !== row.HopeFuelID) // Use TransactionID here
+            prevData.filter((item) => item.HopeFuelID !== row.HopeFuelID), // Use TransactionID here
         );
       }
     });
@@ -257,7 +258,7 @@ const PaymentTeam = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Are you Sure?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Are you Sure?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {selectedRow &&
@@ -278,7 +279,7 @@ const PaymentTeam = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Are you Sure?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Are you Sure?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {selectedRow &&
@@ -294,6 +295,6 @@ const PaymentTeam = () => {
       </Dialog>
     </TableContainer>
   );
-};
+}
 
 export default PaymentTeam;

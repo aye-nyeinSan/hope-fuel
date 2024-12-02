@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Autocomplete,
   Box,
@@ -21,13 +22,11 @@ import filehandler from "../utilites/createForm/fileHandler";
 import { useUser } from "../context/UserContext";
 import { useAgent } from "../context/AgentContext";
 
-
-const ExtendForm = ({ userInfo, setloading }) => {
+function ExtendForm({ userInfo, setloading }) {
   const user = useUser();
   const agent = useAgent();
-console.log("User from ExtendForm: ", user);
+  console.log("User from ExtendForm: ", user);
   const formFillingPerson = user?.email || "Unknown User";
-
 
   const [wallets, setWallets] = useState([]);
   const [currency, setCurrency] = useState("");
@@ -64,7 +63,7 @@ console.log("User from ExtendForm: ", user);
       .then((response) => response.json())
       .then((data) => setSupportRegions(data))
       .catch((error) =>
-        console.error("Error fetching support regions:", error)
+        console.error("Error fetching support regions:", error),
       );
   }, []);
 
@@ -108,7 +107,7 @@ console.log("User from ExtendForm: ", user);
       contactLink,
       notes,
       manyChatId,
-      walletId
+      walletId,
     );
 
     setFiles([]);
@@ -174,7 +173,7 @@ console.log("User from ExtendForm: ", user);
         ))}
       </RadioGroup>
 
-      {/* wallet selection*/}
+      {/* wallet selection */}
       <FormLabel id="wallets">Wallets</FormLabel>
       {wallets && wallets.length > 0 ? (
         <RadioGroup aria-labelledby="wallets-group-label" name="wallets">
@@ -184,7 +183,7 @@ console.log("User from ExtendForm: ", user);
               control={<Radio />}
               label={wallet.WalletName}
               key={wallet.WalletID}
-              required={true}
+              required
               sx={{ mx: 1 }}
             />
           ))}
@@ -275,6 +274,6 @@ console.log("User from ExtendForm: ", user);
       </Button>
     </Box>
   );
-};
+}
 
 export default ExtendForm;

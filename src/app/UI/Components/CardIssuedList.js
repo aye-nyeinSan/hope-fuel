@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import CardItem from "./CardItem";
 
-const CardsIssuedList = ({ data }) => {
+function CardsIssuedList({ data }) {
   const [cards, setCards] = useState([]); // State to hold fetched cards data
 
   useEffect(() => {
@@ -11,8 +11,8 @@ const CardsIssuedList = ({ data }) => {
         try {
           const response = await fetch(
             `/api/transactions?customerName=${encodeURIComponent(
-              data.Name
-            )}&customerEmail=${encodeURIComponent(data.Email)}`
+              data.Name,
+            )}&customerEmail=${encodeURIComponent(data.Email)}`,
           );
           if (!response.ok) {
             throw new Error("Failed to fetch cards issued");
@@ -28,14 +28,14 @@ const CardsIssuedList = ({ data }) => {
       fetchCards();
     }
   }, [data?.Email, data?.Name]); // Re-fetch data if Email or Name changes
- const formatDate = (dateString) => {
-   const date = new Date(dateString);
-   return date.toLocaleDateString("en-US", {
-     year: "numeric",
-     month: "long", // This converts to the full month name
-     day: "numeric",
-   });
- };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long", // This converts to the full month name
+      day: "numeric",
+    });
+  };
   return (
     <Box sx={{ marginTop: 4 }}>
       <Typography variant="h6">List of Cards Issued</Typography>
@@ -55,6 +55,6 @@ const CardsIssuedList = ({ data }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default CardsIssuedList;

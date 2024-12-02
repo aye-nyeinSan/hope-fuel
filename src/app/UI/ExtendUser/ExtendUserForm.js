@@ -1,38 +1,51 @@
-import { Alert, AlertTitle, Autocomplete, Box, Button, CircularProgress, FormControlLabel, FormLabel, ImageList, ImageListItem, Radio, RadioGroup, Stack, TextField } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
-import extendUserSubmit from '../../utilites/ExtendUser/extendUserSubmit'
-import { styled } from '@mui/material/styles';
-import { UserContext, AgentContext } from '../../HomePage';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import filehandler from '../../utilites/createForm/fileHandler';
-import checkPrfSubmit from '../../utilites/ExtendUser/checkPrfSubmit'
-import {SUPPORTREGIONCONST} from '../../variables/const'
-import { MuiOtpInput } from 'mui-one-time-password-input';
-import { ExtendOrNot } from '../ExtendOrNot';
-import Dropzone from 'react-dropzone'
+import {
+  Alert,
+  AlertTitle,
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  FormControlLabel,
+  FormLabel,
+  ImageList,
+  ImageListItem,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField,
+} from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { MuiOtpInput } from "mui-one-time-password-input";
+import Dropzone from "react-dropzone";
+import extendUserSubmit from "../../utilites/ExtendUser/extendUserSubmit";
+import { UserContext, AgentContext } from "../../HomePage";
+import filehandler from "../../utilites/createForm/fileHandler";
+import checkPrfSubmit from "../../utilites/ExtendUser/checkPrfSubmit";
+import { SUPPORTREGIONCONST } from "../../variables/const";
+import { ExtendOrNot } from "../ExtendOrNot";
 
-
-
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
 
-const ExtendUserForm = ({userRole}) => {
+function ExtendUserForm({ userRole }) {
   const [loading, setloading] = useState(false);
-  //LOAD THE WALLETS
+  // LOAD THE WALLETS
   const [wallets, setwallets] = useState();
   const [currency, setcurrency] = useState();
-  const [currencies, setCurrencies] = useState([])
+  const [currencies, setCurrencies] = useState([]);
   const [supportRegion, setsupportRegion] = useState("choose your region");
-    const [supportRegions, setsupportRegions] = useState([]);
+  const [supportRegions, setsupportRegions] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [files, setfiles] = useState([]);
 
@@ -40,7 +53,7 @@ const ExtendUserForm = ({userRole}) => {
   const [monthValidate, setmonthValidate] = useState(false);
   const [manyChatValidate, setmanyChatValidate] = useState(false);
 
-  //check if the user exist
+  // check if the user exist
   const [userExist, setuserExist] = useState();
   const [checkInputComplete, setcheckInputComplete] = useState(false);
   const [isChecking, setisChecking] = useState(false);
@@ -49,13 +62,13 @@ const ExtendUserForm = ({userRole}) => {
   const [fileExist, setfileExist] = useState(true);
   const [uploadProgress, setUploadProgress] = useState("");
 
-  //Load the Wallet on Component Mount
+  // Load the Wallet on Component Mount
   useEffect(() => {
     if (currency) {
       fetch(`/api/loadWalletByCurrency?currencyCode=${currency}`)
-        .then((response) => {
-          return response.json(); // Ensure response.json() is returned
-        })
+        .then(
+          (response) => response.json(), // Ensure response.json() is returned
+        )
         .then((data) => {
           console.log("loadWalletByCurrencyResponse:", data);
           setwallets(data);
@@ -66,28 +79,27 @@ const ExtendUserForm = ({userRole}) => {
     }
   }, [currency]);
 
-//LoadSupportRegion
-    useEffect(() => {
-      fetch("/api/loadSupportRegion")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("loadSupportRegionResponse:", data);
-          setsupportRegions(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching support regions:", error);
-        });
-    }, []);
+  // LoadSupportRegion
+  useEffect(() => {
+    fetch("/api/loadSupportRegion")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("loadSupportRegionResponse:", data);
+        setsupportRegions(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching support regions:", error);
+      });
+  }, []);
 
-    // load currencies when component mount
-    useEffect(() => {
-      fetch("/api/getCurrencies")
+  // load currencies when component mount
+  useEffect(() => {
+    fetch("/api/getCurrencies")
       .then((response) => response.json())
       .then((data) => {
         setCurrencies(data);
-      })
-    }, [])
-
+      });
+  }, []);
 
   const formFillingPerson = useContext(UserContext).username;
   const [otp, setOtp] = React.useState("");
@@ -96,7 +108,7 @@ const ExtendUserForm = ({userRole}) => {
     setOtp(newValue);
   };
 
-let agentId = useContext(AgentContext).id;;
+  const agentId = useContext(AgentContext).id;
 
   return (
     <>
@@ -115,7 +127,7 @@ let agentId = useContext(AgentContext).id;;
             setisChecking,
             setUserInfo,
             setHasPermissonThisMonth,
-            userRole
+            userRole,
           );
         }}
         TextFieldsProps={{ disabled: checkInputComplete }}
@@ -131,7 +143,7 @@ let agentId = useContext(AgentContext).id;;
           <Stack
             spacing={2}
             direction="row"
-            justifyContent={"flex-end"}
+            justifyContent="flex-end"
             sx={{ mt: 3, mb: 2 }}
           >
             <Button
@@ -204,8 +216,7 @@ let agentId = useContext(AgentContext).id;;
         <Box
           component="form"
           onSubmit={(event) =>
-           
-            console.log("submitting ", event)||
+            console.log("submitting ", event) ||
             extendUserSubmit(
               event,
               userInfo,
@@ -220,7 +231,7 @@ let agentId = useContext(AgentContext).id;;
               fileExist,
               setfileExist,
               wallets,
-              agentId
+              agentId,
             )
           }
           sx={{ mt: 1 }}
@@ -263,16 +274,14 @@ let agentId = useContext(AgentContext).id;;
             onChange={(event) => setcurrency(event.target.value)}
             sx={{ mx: 2 }}
           >
-            {currencies.map((item) => {
-              return (
-                <FormControlLabel
-                  value={item.CurrencyCode}
-                  control={<Radio required={true} />}
-                  label={item.CurrencyCode}
-                  id={item.CurrencyID}
-                />
-              );
-            })}
+            {currencies.map((item) => (
+              <FormControlLabel
+                value={item.CurrencyCode}
+                control={<Radio required />}
+                label={item.CurrencyCode}
+                id={item.CurrencyID}
+              />
+            ))}
           </RadioGroup>
           <FormLabel id="wallets">Wallets</FormLabel>
           {wallets && wallets.length > 0 ? (
@@ -283,7 +292,7 @@ let agentId = useContext(AgentContext).id;;
                   control={<Radio />}
                   label={wallet.WalletName}
                   key={wallet.WalletID}
-                  required={true}
+                  required
                   sx={{ mx: 1 }}
                 />
               ))}
@@ -347,7 +356,7 @@ let agentId = useContext(AgentContext).id;;
             }}
             onDrop={(e) => {
               e.preventDefault();
-              e.nativeEvent.dataTransfer.items[0].getAsString(function (url) {
+              e.nativeEvent.dataTransfer.items[0].getAsString((url) => {
                 if (url == null) {
                   console.log("this run");
                   console.log(url);
@@ -390,7 +399,7 @@ let agentId = useContext(AgentContext).id;;
             >
               {files.map((item) => (
                 <ImageListItem key={item.href}>
-                  <img src={`${item.href}`} alt={"hello"} loading="lazy" />
+                  <img src={`${item.href}`} alt="hello" loading="lazy" />
                 </ImageListItem>
               ))}
             </ImageList>
@@ -410,4 +419,4 @@ let agentId = useContext(AgentContext).id;;
   );
 }
 
-export default ExtendUserForm
+export default ExtendUserForm;

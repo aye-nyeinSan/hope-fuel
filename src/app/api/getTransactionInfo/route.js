@@ -11,7 +11,7 @@ export async function GET(req) {
   if (!customerName || !customerEmail) {
     return NextResponse.json(
       { error: "Customer name and email are required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -52,7 +52,7 @@ export async function GET(req) {
     console.error("Database query error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

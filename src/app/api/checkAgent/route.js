@@ -18,11 +18,11 @@ JOIN UserRole ur ON a.UserRoleID = ur.UserRoleID
 WHERE a.AWSID = ?;
   `;
 
-  const values = [awsId,awsId];
+  const values = [awsId, awsId];
   try {
     const result = await db(query, values);
-   // console.log("Agent exists:", result);
-    return result; 
+    // console.log("Agent exists:", result);
+    return result;
   } catch (error) {
     console.error("[DB] Error checking agentDB:", error);
     throw error;
@@ -31,33 +31,36 @@ WHERE a.AWSID = ?;
 
 export async function GET(req) {
   try {
-   
-    const url = new URL(req.url); 
+    const url = new URL(req.url);
     const awsId = url.searchParams.get("awsId");
-   // console.log("AWSID being queried:", awsId);
+    // console.log("AWSID being queried:", awsId);
 
     if (!awsId) {
       return NextResponse.json(
         { error: "Missing awsId query parameter" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const data = await checkExistedAgent(awsId);
-   // console.log("Data from CheckAgent:", data); // Log the entire data array
+    // console.log("Data from CheckAgent:", data); // Log the entire data array
 
     if (data.length === 0 || data[0].AgentExists === 0) {
       return NextResponse.json(
         { message: "User does not exist", code: 0 },
-        { status: 404 }
+        { status: 404 },
       );
     }
-    return NextResponse.json({ message: "User exists", code: 1, user: data[0] });
+    return NextResponse.json({
+      message: "User exists",
+      code: 1,
+      user: data[0],
+    });
   } catch (error) {
     console.error("[Error] Cannot load existing agentUser", error);
     return NextResponse.json(
       { error: "Cannot load existing agentUser" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import getAuthCurrentUser from "../utilites/getAuthCurrentUser";
 
@@ -12,7 +13,7 @@ export const useUser = () => {
   return context;
 };
 
-export const UserProvider = ({ children }) => {
+export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
@@ -34,4 +35,4 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
-};
+}

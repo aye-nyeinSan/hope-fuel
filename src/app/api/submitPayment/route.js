@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
+
+import moment from "moment-timezone";
 import db from "../../utilites/db";
 import calculateExpireDate from "../../utilites/calculateExpireDate";
-import { max } from "date-fns";
-import moment from "moment-timezone";
-//Insert Into Customer Table
+// Insert Into Customer Table
 async function InsertCustomer(
   customerName,
   customerEmail,
   agentId,
   manyChatId,
   contactLink,
-  month
+  month,
 ) {
-  let currentDay = new Date();
-  let nextExpireDate = calculateExpireDate(currentDay, month, true);
+  const currentDay = new Date();
+  const nextExpireDate = calculateExpireDate(currentDay, month, true);
   const query = `
     INSERT INTO Customer (Name, Email, AgentID, ManyChatID, ContactLink, ExpireDate ) VALUES (?, ?, ?, ?, ?, ?)
     `;
@@ -33,12 +33,12 @@ async function InsertCustomer(
     console.error("Error inserting customer:", error);
     return NextResponse.json(
       { error: "Failed to insert customer" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-//Insert Into Note Table
+// Insert Into Note Table
 async function createNote(note, agentID) {
   const query = `insert into Note (Note, Date, AgentID) values ( ?, ?, ?)`;
   const values = [note, new Date(), agentID];
@@ -50,25 +50,24 @@ async function createNote(note, agentID) {
     console.error("Error inserting customer:", error);
     return NextResponse.json(
       { error: "Failed to insert customer" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-//Insert Into ScreenShot Table
+// Insert Into ScreenShot Table
 async function createScreenShot(screenShot, transactionsID) {
   if (!screenShot || screenShot.length === 0) {
     throw new Error("You need to provide a screenshot");
   }
 
   console.log(
-    "From createScreenshotDB: with TransactionID" +
-      transactionsID +
-      " and  screenshot" +
-      screenShot
+    `From createScreenshotDB: with TransactionID${
+      transactionsID
+    } and  screenshot${screenShot}`,
   );
 
-  let screenShotLink = screenShot.map(async (item) => {
+  const screenShotLink = screenShot.map(async (item) => {
     const query = `insert into ScreenShot (TransactionID , ScreenShotLink) values ( ?, ?)`;
 
     const path = String(item.url).substring(0, String(item.url).indexOf("?"));
@@ -86,17 +85,16 @@ async function createScreenShot(screenShot, transactionsID) {
   return screenShotLink;
 }
 
-//Insert Into TransactionAgent Table
+// Insert Into TransactionAgent Table
 async function InsertTransactionLog(transactionId, agentId) {
   const query = `INSERT INTO TransactionAgent(TransactionID, AgentID, LogDate) VALUES (?, ?, ?)`;
   const values = [transactionId, agentId, new Date()];
   try {
     const result = await db(query, values);
-    console.log("result " + result);
+    console.log(`result ${result}`);
     return result.insertId;
   } catch (error) {
     console.error("Error inserting log", error);
-    return;
   }
 }
 async function InsertFormStatus(transactionId) {
@@ -104,20 +102,19 @@ async function InsertFormStatus(transactionId) {
   const values = [transactionId, 1];
   try {
     const result = await db(query, values);
-    console.log("result " + result);
+    console.log(`result ${result}`);
     return result.insertId;
   } catch (error) {
     console.error("Error inserting log", error);
-    return;
   }
 }
 
 async function maxHopeFuelID() {
-  const maxHopeFuelID_Query = `SELECT MAX(HopeFuelID) AS maxHopeFuelID FROM Transactions`;
-  const result = await db(maxHopeFuelID_Query);
+  const maxHopeFuelIdQuery = `SELECT MAX(HopeFuelID) AS maxHopeFuelID FROM Transactions`;
+  const result = await db(maxHopeFuelIdQuery);
 
   console.log(result);
-  return result[0]["maxHopeFuelID"];
+  return result[0].maxHopeFuelID;
 }
 
 export async function POST(req) {
@@ -125,10 +122,10 @@ export async function POST(req) {
     if (!req.body) {
       return NextResponse.json(
         { error: "Request body is empty" },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    let json = await req.json();
+    const json = await req.json();
     console.log(json);
 
     let {
@@ -150,7 +147,7 @@ export async function POST(req) {
     if (!screenShot || screenShot.length === 0) {
       return NextResponse.json(
         { error: "You need to provide a screenshot" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -170,7 +167,7 @@ export async function POST(req) {
       agentId,
       manyChatId,
       contactLink,
-      month
+      month,
     );
 
     let nextHopeFuelID = await maxHopeFuelID();
@@ -181,12 +178,12 @@ export async function POST(req) {
     }
     nextHopeFuelID++;
     console.log("Incremented maxHopeFuelID:", nextHopeFuelID);
-    let timeZone = "Asia/Bangkok";
-    let transactionDateWithThailandTimeZone = moment()
+    const timeZone = "Asia/Bangkok";
+    const transactionDateWithThailandTimeZone = moment()
       .tz(timeZone)
       .format("YYYY-MM-DD HH:mm:ss");
 
-    //insert into transaction table
+    // insert into transaction table
     const query = `
      INSERT INTO Transactions   
     (CustomerID, Amount,  SupportRegionID, WalletID, TransactionDate, NoteID, Month,HopeFuelID) 
@@ -206,7 +203,7 @@ export async function POST(req) {
     const result = await db(query, values);
 
     const transactionId = result.insertId;
-    //console.log("Transaction ID " + transactionId);
+    // console.log("Transaction ID " + transactionId);
     const formStatusId = await InsertFormStatus(transactionId);
 
     const screenShotIds = await createScreenShot(screenShot, transactionId);
@@ -223,7 +220,7 @@ export async function POST(req) {
     console.log(error);
     return NextResponse.json(
       { error: error.message || "Something went wrong" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,5 @@
 // components/Login.tsx
+
 "use client";
 
 import { withAuthenticator } from "@aws-amplify/ui-react";
@@ -13,9 +14,8 @@ function Login({ user }) {
   useEffect(() => {
     console.log("User from Login components: ", user);
     if (user) {
-      setUser(user) ;
-      redirect("/createForm") ;
-   
+      setUser(user);
+      redirect("/createForm");
     }
   }, [user]);
   return null;

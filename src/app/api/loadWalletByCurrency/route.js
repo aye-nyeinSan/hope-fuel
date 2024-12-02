@@ -8,15 +8,15 @@ async function loadWallet(currencyCode) {
   JOIN Currency ON Wallet.CurrencyID = Currency.CurrencyID 
   WHERE Currency.CurrencyCode = ?
 `;
-  const values= [currencyCode];
+  const values = [currencyCode];
   try {
-    const result = await db(query,values);
+    const result = await db(query, values);
     console.log("Result for available wallet for currency ", result);
     return result;
   } catch (error) {
     console.error(
       "[DB] Can't show all available wallet for currency From DB Query:",
-      error
+      error,
     );
     throw error;
   }
@@ -27,18 +27,18 @@ export async function GET(req) {
     const url = new URL(req.url);
     const currencyCode = url.searchParams.get("currencyCode");
     const data = await loadWallet(currencyCode);
-      if (data.length === 0) {
-        return NextResponse.json(
-          { message: `No wallets found for currency code: ${currencyCode}` },
-          { status: 404 }
-        );
-      }
+    if (data.length === 0) {
+      return NextResponse.json(
+        { message: `No wallets found for currency code: ${currencyCode}` },
+        { status: 404 },
+      );
+    }
     return NextResponse.json(data);
   } catch (error) {
     console.error("[Error] Cannot load existing wallet", error);
     return NextResponse.json(
       { error: "Cannot load existing wallet" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -9,7 +9,7 @@ async function getCurrencies(awsId) {
 
   try {
     const result = await db(query, []);
-    return result; //return currencies
+    return result; // return currencies
   } catch (error) {
     console.error("[DB] Error getting agent in DB:", error);
     throw error;
@@ -18,7 +18,6 @@ async function getCurrencies(awsId) {
 
 export async function GET(req) {
   try {
-
     const result = await getCurrencies();
 
     return NextResponse.json(result);
@@ -26,7 +25,7 @@ export async function GET(req) {
     console.error("[Error] Cannot get agentUser", error);
     return NextResponse.json(
       { error: "Cannot get agentUser" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
